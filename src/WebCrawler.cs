@@ -190,7 +190,7 @@ namespace AleungcMailCollector
         /// </summary>
         /// <param name="url"></param>
         /// <returns></returns>
-        public bool isUrlOnline(string url)
+        public static bool isUrlOnline(string url)
         {
             Uri uriResult;
             bool result = Uri.TryCreate(url, UriKind.Absolute, out uriResult)
