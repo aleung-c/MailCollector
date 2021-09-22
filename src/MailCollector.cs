@@ -12,17 +12,17 @@ using AleungcMailCollector.Exceptions;
 namespace AleungcMailCollector
 {
     /// <summary>
-    ///  WebCrawler class.
+    ///  MailCollector class.
     ///  
     /// Implements IAmTheTest interface. Will handle everything
-    /// related to the crawler -> extract html code, email adress, and navigate
+    /// related to the collector -> extract html code, email adress, and navigate
     /// through the pages until the maximum depth is reached.
     /// 
     /// Important note: it is NOT in recursive coding to avoid overhead
     /// on large depth values.
     /// 
     /// </summary>
-    class WebCrawler : IAmTheTest
+    class MailCollector : IMailCollector
     {
         string  _htmlOutput = null;
         Regex   _tagRegex = new Regex("< ?a +href=\"([a-zA-Z\\d@./\\:-]+)\"");
@@ -33,7 +33,7 @@ namespace AleungcMailCollector
                                                 RegexOptions.IgnoreCase);
 
         /// <summary>
-        /// The main method for the webcrawler.
+        /// The main method for the collector.
         ///
         /// </summary>
         /// <param name="browser">Instance of WebBrowser class, will handle HTTP page opening.</param>
@@ -46,27 +46,27 @@ namespace AleungcMailCollector
             {
                 List<string>        emailList = new List<string>();
 
-                HashSet<string>     pagesToCrawl = new HashSet<string>();
-                HashSet<string>     crawledPages = new HashSet<string>();
-                HashSet<string>     nextPagesToCrawl = new HashSet<string>();
+                HashSet<string>     pagesToExplore = new HashSet<string>();
+                HashSet<string>     exploredPages = new HashSet<string>();
+                HashSet<string>     nextPagesToExplore = new HashSet<string>();
 
                 MatchCollection     matches;
                 MatchCollection     innerMatches;
-
+                
                 string              capturedValue = "";
                 bool                onlinePage = isUrlOnline(url); // Will be used to combine online addresses.
                 
-                pagesToCrawl.Add(url);
+                pagesToExplore.Add(url);
                 while (maximumDepth > -1)
                 {
-                    foreach (string currentPage in pagesToCrawl)
+                    foreach (string currentPage in pagesToExplore)
                     {
                         _htmlOutput = browser.GetHtml(currentPage);
                         if (_htmlOutput == null) {
                             Console.WriteLine("Could not open url, continuing...");
                             continue;
                         }
-                        crawledPages.Add(currentPage);
+                        exploredPages.Add(currentPage);
                         // - Extracting HTML tags with 1st regex
                         matches = _tagRegex.Matches(_htmlOutput);
                         foreach (Match match in matches)
@@ -78,13 +78,13 @@ namespace AleungcMailCollector
                                 ExtractEmails(emailList, innerMatches);
                             }
                             else {
-                                // - Extracting next pages to crawl (considering non-mail captures as links)
-                                ExtractPagesToCrawl(currentPage, crawledPages, nextPagesToCrawl, capturedValue, onlinePage);
+                                // - Extracting next pages to explore (considering non-mail captures as links)
+                                ExtractPagesToExplore(currentPage, exploredPages, nextPagesToExplore, capturedValue, onlinePage);
                             }
                         }
                     }
-                    pagesToCrawl = new HashSet<string> (nextPagesToCrawl);
-                    nextPagesToCrawl.Clear();
+                    pagesToExplore = new HashSet<string> (nextPagesToExplore);
+                    nextPagesToExplore.Clear();
                     maximumDepth--;
                 }
                 return emailList;
@@ -92,7 +92,7 @@ namespace AleungcMailCollector
             catch (Exception e)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Exception in WebCrawler.GetEmailsInPageAndChildPages: " + e.Message);
+                Console.WriteLine("Exception in MailCollector.GetEmailsInPageAndChildPages: " + e.Message);
                 Console.ResetColor();
                 return null;
             }
@@ -146,13 +146,13 @@ namespace AleungcMailCollector
         /// the parsing must be done in various ways.
         /// </summary>
         /// <param name="currentPage">The current page path</param>
-        /// <param name="crawledPages">the list of pages that we have already explored.</param>
-        /// <param name="nextPagesToCrawl">the list of pages that will be considered new pages to explore.</param>
+        /// <param name="exploredPages">the list of pages that we have already explored.</param>
+        /// <param name="nextPagesToExplore">the list of pages that will be considered new pages to explore.</param>
         /// <param name="capturedValue">The captured value from the previously executed regex.</param>
         /// <param name="onlinePage">If true, the path is an online adress, and must be treated as such.</param>
-        public void ExtractPagesToCrawl(string currentPage,
-                                        HashSet<string> crawledPages,
-                                        HashSet<string> nextPagesToCrawl,
+        public void ExtractPagesToExplore(string currentPage,
+                                        HashSet<string> exploredPages,
+                                        HashSet<string> nextPagesToExplore,
                                         string capturedValue, bool onlinePage)
         {
             string parsedPage = "";
@@ -180,7 +180,7 @@ namespace AleungcMailCollector
             else { // Absolute path
                 parsedPage = capturedValue;
             }
-            nextPagesToCrawl.Add(parsedPage);
+            nextPagesToExplore.Add(parsedPage);
         }
 
         /// <summary>

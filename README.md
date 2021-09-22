@@ -31,9 +31,13 @@ depth you want to explore.
         {
             List<string> emailList = new List<string>();
 
-            WebCrawler crawler = new WebCrawler();
+            MailCollector collector = new MailCollector();
             WebBrowser browser = new WebBrowser();
 
-            emailList = crawler.GetEmailsInPageAndChildPages(browser, "PATH_TO_PAGE"), 0);
+            emailList = collector.GetEmailsInPageAndChildPages(browser, "PATH_TO_PAGE"), 0);
         }
 ```
+
+### Known issues:
+- It's a bit slow. Global node searching algorithms tend to be slow when not optimized.
+- Does not work with https or addresses that deviate too much from the examples. Would require some more work to handle more cases.

@@ -11,7 +11,7 @@ namespace AleungcMailCollector
         static int Main(string[] args)
         {
             List<string>    emailList = new List<string>();
-            WebCrawler      crawler = new WebCrawler();
+            MailCollector   collector = new MailCollector();
             WebBrowser      browser = new WebBrowser();
             RunTests        tests = new RunTests();
 
@@ -29,7 +29,7 @@ namespace AleungcMailCollector
                 else
                 {
                     if (args.Length == 1) {
-                        emailList = crawler.GetEmailsInPageAndChildPages(browser, args[0], 0);
+                        emailList = collector.GetEmailsInPageAndChildPages(browser, args[0], 0);
                     }
                     else if (args.Length == 2) {
                         int depth = Int32.Parse(args[1]);
@@ -38,7 +38,7 @@ namespace AleungcMailCollector
                             Console.WriteLine("-Limiting depth to 10-");
                             depth = 10;
                         }
-                        emailList = crawler.GetEmailsInPageAndChildPages(browser, args[0], depth);
+                        emailList = collector.GetEmailsInPageAndChildPages(browser, args[0], depth);
                     }
 
                     Console.WriteLine("Collected mails:");

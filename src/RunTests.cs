@@ -17,7 +17,7 @@ namespace AleungcMailCollector
         {
             // --- Setup
             List<string> emailList = new List<string>();
-            WebCrawler crawler = new WebCrawler();
+            MailCollector collector = new MailCollector();
             WebBrowser browser = new WebBrowser();
 
             string pathToTests = GetThisFilePath();
@@ -28,7 +28,7 @@ namespace AleungcMailCollector
             // Test executions
             String TestName = "Test 1 - Provided Test 1";
             PrintTitle(TestName);
-            emailList = crawler.GetEmailsInPageAndChildPages(browser, Path.Combine(pathToTests, "ProvidedTest\\index.html"), 0);
+            emailList = collector.GetEmailsInPageAndChildPages(browser, Path.Combine(pathToTests, "ProvidedTest\\index.html"), 0);
             PrintLog("Results:");
             foreach (string mail in emailList) { PrintLog(mail); }
             if (emailList.Contains("nullepart@mozilla.org")) {
@@ -41,7 +41,7 @@ namespace AleungcMailCollector
 
             TestName = "Test 2 - Provided Test 2";
             PrintTitle(TestName);
-            emailList = crawler.GetEmailsInPageAndChildPages(browser, Path.Combine(pathToTests, "ProvidedTest\\index.html"), 1);
+            emailList = collector.GetEmailsInPageAndChildPages(browser, Path.Combine(pathToTests, "ProvidedTest\\index.html"), 1);
             PrintLog("Results:");
             foreach (string mail in emailList) { PrintLog(mail); }
             if (emailList.Contains("nullepart@mozilla.org")
@@ -56,7 +56,7 @@ namespace AleungcMailCollector
 
             TestName = "Test 3 - Provided Test 3";
             PrintTitle(TestName);
-            emailList = crawler.GetEmailsInPageAndChildPages(browser, Path.Combine(pathToTests, "ProvidedTest\\index.html"), 2);
+            emailList = collector.GetEmailsInPageAndChildPages(browser, Path.Combine(pathToTests, "ProvidedTest\\index.html"), 2);
             PrintLog("Results:");
             foreach (string mail in emailList) { PrintLog(mail); }
             if (emailList.Contains("nullepart@mozilla.org")
@@ -72,7 +72,7 @@ namespace AleungcMailCollector
 
             TestName = "Test 4 - Provided Test with NO mails in files - depth 0";
             PrintTitle(TestName);
-            emailList = crawler.GetEmailsInPageAndChildPages(browser, Path.Combine(pathToTests, "ProvidedTestWithNoMail\\index.html"), 0);
+            emailList = collector.GetEmailsInPageAndChildPages(browser, Path.Combine(pathToTests, "ProvidedTestWithNoMail\\index.html"), 0);
             PrintLog("Results:");
             foreach (string mail in emailList) { PrintLog(mail); }
             if (emailList.Count == 0)
@@ -86,7 +86,7 @@ namespace AleungcMailCollector
 
             TestName = "Test 5 - Provided Test with NO mails in files - depth 1";
             PrintTitle(TestName);
-            emailList = crawler.GetEmailsInPageAndChildPages(browser, Path.Combine(pathToTests, "ProvidedTestWithNoMail\\index.html"), 1);
+            emailList = collector.GetEmailsInPageAndChildPages(browser, Path.Combine(pathToTests, "ProvidedTestWithNoMail\\index.html"), 1);
             PrintLog("Results:");
             foreach (string mail in emailList) { PrintLog(mail); }
             if (emailList.Count == 0)
@@ -100,7 +100,7 @@ namespace AleungcMailCollector
 
             TestName = "Test 6 - Provided Test with NO mails in files - depth 3";
             PrintTitle(TestName);
-            emailList = crawler.GetEmailsInPageAndChildPages(browser, Path.Combine(pathToTests, "ProvidedTestWithNoMail\\index.html"), 3);
+            emailList = collector.GetEmailsInPageAndChildPages(browser, Path.Combine(pathToTests, "ProvidedTestWithNoMail\\index.html"), 3);
             PrintLog("Results:");
             foreach (string mail in emailList) { PrintLog(mail); }
             if (emailList.Count == 0)
@@ -114,7 +114,7 @@ namespace AleungcMailCollector
 
             TestName = "Test 6 - Provided Test - depth 4 overflow";
             PrintTitle(TestName);
-            emailList = crawler.GetEmailsInPageAndChildPages(browser, Path.Combine(pathToTests, "ProvidedTest\\index.html"), 4);
+            emailList = collector.GetEmailsInPageAndChildPages(browser, Path.Combine(pathToTests, "ProvidedTest\\index.html"), 4);
             PrintLog("Results:");
             foreach (string mail in emailList) { PrintLog(mail); }
             if (emailList.Contains("nullepart@mozilla.org")
@@ -130,7 +130,7 @@ namespace AleungcMailCollector
 
             TestName = "Test 6 - Provided Test - depth 10 overflow";
             PrintTitle(TestName);
-            emailList = crawler.GetEmailsInPageAndChildPages(browser, Path.Combine(pathToTests, "ProvidedTest\\index.html"), 10);
+            emailList = collector.GetEmailsInPageAndChildPages(browser, Path.Combine(pathToTests, "ProvidedTest\\index.html"), 10);
             PrintLog("Results:");
             foreach (string mail in emailList) { PrintLog(mail); }
             if (emailList.Contains("nullepart@mozilla.org")
@@ -146,7 +146,7 @@ namespace AleungcMailCollector
 
             TestName = "Test 7 - Provided Test with NO links in files - depth 0";
             PrintTitle(TestName);
-            emailList = crawler.GetEmailsInPageAndChildPages(browser, Path.Combine(pathToTests, "ProvidedTestWithNoLinks\\index.html"), 0);
+            emailList = collector.GetEmailsInPageAndChildPages(browser, Path.Combine(pathToTests, "ProvidedTestWithNoLinks\\index.html"), 0);
             PrintLog("Results:");
             foreach (string mail in emailList) { PrintLog(mail); }
             if (emailList.Contains("nullepart@mozilla.org"))
@@ -161,7 +161,7 @@ namespace AleungcMailCollector
 
             TestName = "Test 8 - Provided Test with NO links in files - depth 1";
             PrintTitle(TestName);
-            emailList = crawler.GetEmailsInPageAndChildPages(browser, Path.Combine(pathToTests, "ProvidedTestWithNoLinks\\index.html"), 1);
+            emailList = collector.GetEmailsInPageAndChildPages(browser, Path.Combine(pathToTests, "ProvidedTestWithNoLinks\\index.html"), 1);
             PrintLog("Results:");
             foreach (string mail in emailList) { PrintLog(mail); }
             if (emailList.Contains("nullepart@mozilla.org"))
@@ -175,7 +175,7 @@ namespace AleungcMailCollector
 
             TestName = "Test 9 - Empty files - depth 0";
             PrintTitle(TestName);
-            emailList = crawler.GetEmailsInPageAndChildPages(browser, Path.Combine(pathToTests, "EmptyFile\\index.html"), 0);
+            emailList = collector.GetEmailsInPageAndChildPages(browser, Path.Combine(pathToTests, "EmptyFile\\index.html"), 0);
             PrintLog("Results:");
             foreach (string mail in emailList) { PrintLog(mail); }
             if (emailList.Count == 0)
@@ -189,7 +189,7 @@ namespace AleungcMailCollector
 
             TestName = "Test 10 - Empty files - depth 1";
             PrintTitle(TestName);
-            emailList = crawler.GetEmailsInPageAndChildPages(browser, Path.Combine(pathToTests, "EmptyFile\\index.html"), 1);
+            emailList = collector.GetEmailsInPageAndChildPages(browser, Path.Combine(pathToTests, "EmptyFile\\index.html"), 1);
             PrintLog("Results:");
             foreach (string mail in emailList) { PrintLog(mail); }
             if (emailList.Count == 0)
@@ -203,7 +203,7 @@ namespace AleungcMailCollector
 
             TestName = "Test 11 - Provided test with Invalid mails - depth 3";
             PrintTitle(TestName);
-            emailList = crawler.GetEmailsInPageAndChildPages(browser, Path.Combine(pathToTests, "ProvidedTestWithInvalidMail\\index.html"), 3);
+            emailList = collector.GetEmailsInPageAndChildPages(browser, Path.Combine(pathToTests, "ProvidedTestWithInvalidMail\\index.html"), 3);
             PrintLog("Results:");
             foreach (string mail in emailList) { PrintLog(mail); }
             if (emailList.Count == 0)
@@ -217,7 +217,7 @@ namespace AleungcMailCollector
 
             TestName = "Test 12 - Stress test with Online address http://www.csszengarden.com/  - depth 0";
             PrintTitle(TestName);
-            emailList = crawler.GetEmailsInPageAndChildPages(browser, "http://www.csszengarden.com/", 0);
+            emailList = collector.GetEmailsInPageAndChildPages(browser, "http://www.csszengarden.com/", 0);
             PrintLog("Results:");
             foreach (string mail in emailList) { PrintLog(mail); }
             if (emailList.Count == 0)
@@ -231,7 +231,7 @@ namespace AleungcMailCollector
 
             TestName = "Test 13 - Stress test with Online address http://www.csszengarden.com/  - depth 1";
             PrintTitle(TestName);
-            emailList = crawler.GetEmailsInPageAndChildPages(browser, "http://www.csszengarden.com/", 1);
+            emailList = collector.GetEmailsInPageAndChildPages(browser, "http://www.csszengarden.com/", 1);
             PrintLog("Results:");
             foreach (string mail in emailList) { PrintLog(mail); }
             if (emailList.Count != 0) // Lets call it success if it scoops anything...
