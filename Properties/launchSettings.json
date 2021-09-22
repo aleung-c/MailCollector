@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "AleungcMailCollector": {
+      "commandName": "Project",
+      "commandLineArgs": "--tests"
+    }
+  }
+}
