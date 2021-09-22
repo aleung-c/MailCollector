@@ -46,9 +46,9 @@ namespace AleungcMailCollector
             {
                 List<string>        emailList = new List<string>();
 
-                List<string>        pagesToCrawl = new List<string>();
-                List<string>        crawledPages = new List<string>();
-                List<string>        nextPagesToCrawl = new List<string>();
+                HashSet<string>     pagesToCrawl = new HashSet<string>();
+                HashSet<string>     crawledPages = new HashSet<string>();
+                HashSet<string>     nextPagesToCrawl = new HashSet<string>();
 
                 MatchCollection     matches;
                 MatchCollection     innerMatches;
@@ -84,7 +84,7 @@ namespace AleungcMailCollector
                         }
                         crawledPages.Add(currentPage);
                     }
-                    pagesToCrawl = new List<string> (nextPagesToCrawl);
+                    pagesToCrawl = new HashSet<string> (nextPagesToCrawl);
                     nextPagesToCrawl.Clear();
                     maximumDepth--;
                 }
@@ -152,8 +152,8 @@ namespace AleungcMailCollector
         /// <param name="capturedValue">The captured value from the previously executed regex.</param>
         /// <param name="onlinePage">If true, the path is an online adress, and must be treated as such.</param>
         public void ExtractPagesToCrawl(string currentPage,
-                                        List<string> crawledPages,
-                                        List<string> nextPagesToCrawl,
+                                        HashSet<string> crawledPages,
+                                        HashSet<string> nextPagesToCrawl,
                                         string capturedValue, bool onlinePage)
         {
             string parsedPage = "";
@@ -181,10 +181,7 @@ namespace AleungcMailCollector
             else { // Absolute path
                 parsedPage = capturedValue;
             }
-
-            if (!crawledPages.Contains(parsedPage)) {
-                nextPagesToCrawl.Add(parsedPage);
-            }
+            nextPagesToCrawl.Add(parsedPage);
         }
 
         /// <summary>
