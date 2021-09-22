@@ -66,7 +66,7 @@ namespace AleungcMailCollector
                             Console.WriteLine("Could not open url, continuing...");
                             continue;
                         }
-
+                        crawledPages.Add(currentPage);
                         // - Extracting HTML tags with 1st regex
                         matches = _tagRegex.Matches(_htmlOutput);
                         foreach (Match match in matches)
@@ -82,7 +82,6 @@ namespace AleungcMailCollector
                                 ExtractPagesToCrawl(currentPage, crawledPages, nextPagesToCrawl, capturedValue, onlinePage);
                             }
                         }
-                        crawledPages.Add(currentPage);
                     }
                     pagesToCrawl = new HashSet<string> (nextPagesToCrawl);
                     nextPagesToCrawl.Clear();
